@@ -1,0 +1,72 @@
+video:
+  resolution: [1920, 1080]
+  fps: 30
+  duration_range: [180, 900]  # 3 a 15 minutos
+  bitrate: "8000k"
+
+audio:
+  voice_provider: "gtts"  # gtts, elevenlabs, openai
+  background_music_volume: 0.12
+  narration_volume: 1.0
+
+visual:
+  biblical_mode: false
+  brightness: 0.85
+  contrast: 1.15
+  saturation: 1.05
+  vignette_strength: 0.25
+  zoom_effect: true
+  zoom_speed: 0.01
+
+text:
+  font: "DejaVuSans-Bold.ttf"
+  title_size: 80
+  subtitle_size: 50
+  color: "#EAF2FF"
+
+long_video_structure:
+  intro:
+    duration: 15
+    style: "emotional_hook"
+
+chapters:
+  min: 4
+  max: 10
+  duration_per_chapter: [30, 120]
+
+transitions:
+  between_chapters: "cinematic_fade"
+  duration: 1.2
+
+outro:
+  duration: 20
+  include_cta: true
+  subscribe_reminder: true
+
+upload:
+default_privacy: "public"
+category_id: "27"  # Education
+auto_schedule: false
+schedule_time: "18:00"
+
+languages:
+pt:
+voice_code: "pt-BR"
+tags_prefix:
+- "tecnologia"
+- "inovacao"
+- "ia"
+
+es:
+voice_code: "es-ES"
+tags_prefix:
+- "tecnologia"
+- "ia"
+- "innovacion"
+
+en:
+voice_code: "en-US"
+tags_prefix:
+- "technology"
+- "ai"
+- "innovation"
