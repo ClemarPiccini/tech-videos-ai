@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dark Video Studio</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="dot"></span> Dark Video Studio</div>
+    <div class="top-right">
+      <div id="health" class="health"></div>
+      <button id="openSettings" class="ghost small" type="button">⚙ Configurações</button>
+    </div>
+  </header>
+
+  <div id="setupBanner" class="banner" hidden></div>
+
+  <dialog id="settings" class="modal">
+    <form method="dialog" class="modal-body" id="settingsForm">
+      <div class="modal-head">
+        <h2>Configurações</h2>
+        <button value="cancel" class="copy" type="submit">Fechar</button>
+      </div>
+
+      <section>
+        <span class="label">IA que escreve o roteiro</span>
+        <div class="radio-list">
+          <label><input type="radio" name="llm" value="auto" /> <b>Automático</b> <span class="muted">— Claude se houver chave com crédito; senão, IA local</span></label>
+          <label><input type="radio" name="llm" value="ollama" /> <b>IA local grátis</b> <span class="muted">— Ollama, roda no seu computador</span></label>
+          <label><input type="radio" name="llm" value="anthropic" /> <b>Claude</b> <span class="muted">— melhor qualidade, usa sua chave</span></label>
+        </div>
+      </section>
+
+      <section class="box">
+        <div class="meta-head"><span class="label">IA local (Ollama)</span><span id="ollamaStatus" class="badge"></span></div>
+        <div id="ollamaMissing" class="hint" hidden>
+          1. Baixe e abra o Ollama em <a href="https://ollama.com/download" target="_blank" rel="noopener">ollama.com/download</a>.<br />
+          2. Volte aqui, escolha um modelo e clique em <b>Baixar</b>.
+        </div>
+        <label class="label" for="ollamaModel">Modelo</label>
+        <div class="row">
+          <select id="ollamaModel"></select>
+          <button id="pullModel" class="ghost small" type="button">Baixar</button>
+        </div>
+        <div class="progress" id="pullBarWrap" hidden><div id="pullBar"></div></div>
+        <p id="pullStatus" class="hint"></p>
+      </section>
+
+      <section class="box">
+        <span class="label">Chaves de API (ficam só no arquivo .env do seu computador)</span>
+        <div id="keyFields"></div>
+      </section>
+
+      <p id="settingsMsg" class="hint"></p>
+      <button id="saveSettings" class="primary" type="button">Salvar</button>
+    </form>
+  </dialog>
+
+  <main class="layout">
+    <form id="form" class="panel form" autocomplete="off">
+      <section>
+        <div class="segmented two" id="modeSwitch">
+          <button type="button" data-mode="free" class="active">Ideia livre</button>
+          <button type="button" data-mode="guided">Roteiro guiado</button>
+        </div>
+      </section>
+
+      <section id="freeMode">
+        <label class="label" for="prompt">Sobre o que é o vídeo?</label>
+        <div class="prompt-wrap">
+          <textarea id="prompt" rows="3" placeholder="Ex.: O navio encontrado à deriva sem nenhum tripulante… (deixe vazio para a IA escolher um tema do nicho). Também dá para colar um briefing com TEMA:, GANCHO:, FATOS:, VIRADA:, FINAL:"></textarea>
+          <button type="button" id="idea" class="ghost small" title="Sugerir uma ideia do nicho">🎲 Ideia</button>
+        </div>
+      </section>
+
+      <section id="guidedMode" class="guided" hidden>
+        <p class="hint">Você define a estrutura e os fatos; a IA só escreve a narração entre eles, sem inventar fatos.
+          Dica: cole um briefing inteiro em <b>Tema</b> que os campos são preenchidos sozinhos.</p>
+        <label class="label" for="bTopic">Tema</label>
+        <textarea id="bTopic" rows="2" placeholder="O navio Mary Celeste, encontrado à deriva no Atlântico em dezembro de 1872."></textarea>
+        <label class="label" for="bHook">Gancho <span class="muted">(abre o vídeo, palavra por palavra)</span></label>
+        <textarea id="bHook" rows="2" placeholder="Em 1872, um navio foi encontrado navegando sozinho no meio do oceano. Não havia ninguém a bordo."></textarea>
+        <label class="label" for="bFacts">Fatos obrigatórios <span class="muted">(um por linha)</span></label>
+        <textarea id="bFacts" rows="4" placeholder="10 pessoas a bordo, incluindo o capitão, a esposa e a filha de 2 anos&#10;Comida e água para 6 meses intactas"></textarea>
+        <label class="label" for="bTwist">Virada</label>
+        <textarea id="bTwist" rows="2" placeholder="Não havia sinal de luta, roubo ou tempestade."></textarea>
+        <label class="label" for="bEnding">Final <span class="muted">(fecha o vídeo, palavra por palavra)</span></label>
+        <textarea id="bEnding" rows="2" placeholder="O que faria 10 pessoas abandonarem um navio perfeitamente seguro?"></textarea>
+        <p id="briefInfo" class="hint"></p>
+      </section>
+
+      <section>
+        <span class="label">Nicho</span>
+        <div id="niches" class="chips wrap"></div>
+      </section>
+
+      <section>
+        <span class="label">Plataforma</span>
+        <div id="platforms" class="segmented"></div>
+      </section>
+
+      <section>
+        <span class="label">Duração</span>
+        <div class="row">
+          <div id="durations" class="chips"></div>
+          <div class="custom-duration">
+            <input id="duration" type="number" min="15" max="1800" step="5" />
+            <span class="muted">seg</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div>
+          <label class="label" for="language">Idioma</label>
+          <select id="language"></select>
+        </div>
+        <div>
+          <label class="label" for="tone">Tom da narração</label>
+          <select id="tone"></select>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div>
+          <label class="label" for="engine">Motor de voz</label>
+          <select id="engine">
+            <option value="edge">Edge TTS (grátis)</option>
+            <option value="elevenlabs">ElevenLabs (premium)</option>
+          </select>
+        </div>
+        <div>
+          <label class="label" for="voice">Voz</label>
+          <select id="voice"></select>
+        </div>
+      </section>
+
+      <section class="toggles">
+        <label class="toggle"><input type="checkbox" id="captions" checked /><span></span>Legendas animadas</label>
+        <label class="toggle"><input type="checkbox" id="music" checked /><span></span>Música de fundo</label>
+        <label class="toggle"><input type="checkbox" id="cta" checked /><span></span>CTA no final</label>
+      </section>
+
+      <details>
+        <summary>Instruções extras</summary>
+        <textarea id="extra" rows="2" placeholder="Ex.: termine com uma pergunta para os comentários; cite a fonte principal…"></textarea>
+      </details>
+
+      <button id="submit" class="primary" type="submit">Gerar vídeo</button>
+      <p id="formError" class="error" hidden></p>
+    </form>
+
+    <section class="panel output">
+      <div id="empty" class="empty">
+        <div class="empty-icon">▶</div>
+        <p>Preencha o formulário e clique em <b>Gerar vídeo</b>.<br />O vídeo pronto para postar aparece aqui.</p>
+      </div>
+
+      <div id="job" hidden>
+        <div class="job-head">
+          <h2 id="jobTitle">Gerando…</h2>
+          <span id="jobBadge" class="badge"></span>
+        </div>
+        <div class="progress"><div id="bar"></div></div>
+        <p id="jobStep" class="muted"></p>
+        <p id="jobError" class="error" hidden></p>
+
+        <div id="result" hidden>
+          <div class="media">
+            <video id="player" controls playsinline></video>
+            <img id="thumb" alt="Thumbnail" />
+          </div>
+
+          <div class="actions">
+            <a id="dlVideo" class="primary small" download>⬇ Baixar vídeo</a>
+            <a id="dlThumb" class="ghost small" download>⬇ Thumbnail</a>
+            <a id="dlPost" class="ghost small" download>⬇ Texto do post</a>
+          </div>
+          <p id="igHint" class="hint" hidden>Para postar: baixe o vídeo, abra o Instagram → Reels, escolha o vídeo, use a thumbnail como capa e cole a legenda abaixo.</p>
+
+          <div class="meta">
+            <div class="meta-item" id="boxTitle">
+              <div class="meta-head"><span class="label">Título</span><button class="copy" data-copy="mTitle">Copiar</button></div>
+              <p id="mTitle"></p>
+            </div>
+            <div class="meta-item">
+              <div class="meta-head"><span class="label" id="descLabel">Descrição</span><button class="copy" data-copy="mDesc">Copiar</button></div>
+              <p id="mDesc" class="pre"></p>
+            </div>
+            <div class="meta-item">
+              <div class="meta-head"><span class="label">Hashtags</span><button class="copy" data-copy="mHash">Copiar</button></div>
+              <p id="mHash"></p>
+            </div>
+            <div class="meta-item" id="boxTags">
+              <div class="meta-head"><span class="label">Tags</span><button class="copy" data-copy="mTags">Copiar</button></div>
+              <p id="mTags" class="muted"></p>
+            </div>
+          </div>
+
+          <div class="publish" id="publishBox">
+            <span class="label">Publicar no YouTube</span>
+            <div class="row">
+              <select id="privacy">
+                <option value="private">Privado</option>
+                <option value="unlisted">Não listado</option>
+                <option value="public">Público</option>
+              </select>
+              <button id="upload" class="ghost small" type="button">Enviar</button>
+              <span id="uploadStatus" class="muted"></span>
+            </div>
+
+          </div>
+        </div>
+
+        <details class="log"><summary>Log</summary><pre id="jobLog"></pre></details>
+      </div>
+    </section>
+
+    <aside class="panel history">
+      <h3>Histórico</h3>
+      <ul id="history"></ul>
+    </aside>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

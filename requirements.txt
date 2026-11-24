@@ -1,23 +1,26 @@
-# Core
-anthropic==0.18.0
-python-dotenv==1.0.0
-pyyaml==6.0.1
+# Roteiro (Claude)
+anthropic==0.125.0
+pydantic>=2.7
 
-# Vídeo
-moviepy==2.1.1
-pillow==11.0.0
-numpy==2.2.0
+# Web
+fastapi>=0.115
+uvicorn[standard]>=0.30
 
-# Áudio
-elevenlabs==0.2.33
-pydub==0.25.1
+# Narração
+edge-tts==7.3.1
+elevenlabs>=2.0
+
+# Visuais / utilitários
+pillow>=10.0
+requests>=2.32
+python-dotenv>=1.0
+pyyaml>=6.0
 
 # YouTube
-google-auth==2.37.0
-google-auth-oauthlib==1.2.1
-google-api-python-client==2.154.0
+google-auth>=2.30
+google-auth-oauthlib>=1.2
+google-api-python-client>=2.130
 
-# Imagens / Utils
-requests==2.32.3
-colorama==0.4.6
-tqdm==4.67.1
+# Testes
+pytest>=8.0
+httpx>=0.27

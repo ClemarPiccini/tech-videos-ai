@@ -1,72 +1,71 @@
+llm:
+  # auto: usa Claude se houver ANTHROPIC_API_KEY (e cai para o local se faltar crédito); senão, Ollama.
+  # Pode ser sobrescrito pela tela de Configurações (LLM_PROVIDER / OLLAMA_MODEL no .env).
+  provider: "auto"          # auto | anthropic | ollama
+  anthropic_model: "claude-sonnet-5-5"
+  max_tokens: 16000
+  ollama_url: "http://localhost:11434"
+  ollama_model: "qwen2.5:7b"
+  ollama_num_ctx: 8192
+  # Vídeos acima disso são escritos em partes pelo modelo local (esboço + uma chamada por parte)
+  ollama_single_pass_max_seconds: 150
+  ollama_seconds_per_part: 90
+
 video:
-  resolution: [1920, 1080]
   fps: 30
-  duration_range: [180, 900]  # 3 a 15 minutos
-  bitrate: "8000k"
+  crf: 20
+  preset: "medium"
+  # Correção de cor "dark" aplicada em todos os clipes
+  grade:
+    brightness: -0.07
+    contrast: 1.12
+    saturation: 0.65
+    gamma: 0.85      # < 1 escurece meios-tons: deixa clipes diurnos com cara "dark"
+  vignette: true
+  # Descarta clipes cuja miniatura tenha brilho médio acima disto (0 = preto, 1 = branco; 1.0 desliga).
+  # Mantém o clima "dark": evita praia ensolarada, quarto aconchegante etc.
+  max_source_brightness: 0.45
+  # Segundos mínimos que um clipe fica na tela antes de cortar
+  min_clip_seconds: 2.5
+  # Duração-alvo de cada clipe: cenas longas são cortadas em vários clipes para manter o ritmo
+  clip_seconds:
+    vertical: 3.5
+    landscape: 5
+
+formats:
+  landscape: [1920, 1080]
+  vertical: [1080, 1920]
+
+narration:
+  # Palavras por segundo usadas para calcular o tamanho do roteiro.
+  # Medido: Edge TTS pt-BR (Antonio, +5%) fala ~2,0 palavras/s.
+  words_per_second: 2.05
+  pause_between_scenes: 0.25
+  edge_rate: "+5%"
+  # Se a narração passar da duração pedida, o áudio é acelerado até este fator (1.2 = 20% mais rápido)
+  max_speedup: 1.2
+  # Margem aceita antes de acelerar (0.03 = até 3% acima da duração pedida)
+  duration_tolerance: 0.03
 
 audio:
-  voice_provider: "gtts"  # gtts, elevenlabs, openai
-  background_music_volume: 0.12
-  narration_volume: 1.0
+  music_volume: 0.14
+  ducking: true
+  loudness_lufs: -14
 
-visual:
-  biblical_mode: false
-  brightness: 0.85
-  contrast: 1.15
-  saturation: 1.05
-  vignette_strength: 0.25
-  zoom_effect: true
-  zoom_speed: 0.01
+captions:
+  font: "/System/Library/Fonts/Supplemental/Impact.ttf"
+  color: "#FFFFFF"
+  highlight: "#FFD60A"
+  stroke_color: "#000000"
+  words_per_chunk:
+    vertical: 3
+    landscape: 5
 
-text:
-  font: "DejaVuSans-Bold.ttf"
-  title_size: 80
-  subtitle_size: 50
-  color: "#EAF2FF"
+paths:
+  output: "output"
+  cache: "output/.cache"
+  music: "assets/music"
 
-long_video_structure:
-  intro:
-    duration: 15
-    style: "emotional_hook"
-
-chapters:
-  min: 4
-  max: 10
-  duration_per_chapter: [30, 120]
-
-transitions:
-  between_chapters: "cinematic_fade"
-  duration: 1.2
-
-outro:
-  duration: 20
-  include_cta: true
-  subscribe_reminder: true
-
-upload:
-default_privacy: "public"
-category_id: "27"  # Education
-auto_schedule: false
-schedule_time: "18:00"
-
-languages:
-pt:
-voice_code: "pt-BR"
-tags_prefix:
-- "tecnologia"
-- "inovacao"
-- "ia"
-
-es:
-voice_code: "es-ES"
-tags_prefix:
-- "tecnologia"
-- "ia"
-- "innovacion"
-
-en:
-voice_code: "en-US"
-tags_prefix:
-- "technology"
-- "ai"
-- "innovation"
+youtube:
+  category_id: "27"
+  default_privacy: "private"
