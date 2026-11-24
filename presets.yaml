@@ -1,0 +1,158 @@
+# Presets exibidos na interface. Edite à vontade: tudo aqui é lido em tempo de execução.
+
+# enabled: false esconde a plataforma da interface (o código continua suportando).
+# A primeira plataforma habilitada é a padrão.
+platforms:
+  reels:
+    label: "Instagram Reels"
+    orientation: vertical
+    durations: [15, 30, 45, 60, 90]
+    default_duration: 30
+    max_duration: 180
+    max_hashtags: 5   # limite atual do Instagram
+    enabled: true
+  youtube:
+    label: "YouTube (16:9)"
+    orientation: landscape
+    durations: [180, 300, 480, 600, 900]
+    default_duration: 480
+    enabled: true
+  shorts:
+    label: "YouTube Shorts"
+    orientation: vertical
+    durations: [30, 45, 60, 90, 120]
+    default_duration: 60
+    max_duration: 180
+    enabled: true
+  tiktok:
+    label: "TikTok"
+    orientation: vertical
+    durations: [30, 45, 60, 90, 180]
+    default_duration: 60
+    enabled: true
+
+niches:
+  misterios:
+    label: "Mistérios e enigmas"
+    guidance: "Casos inexplicados, desaparecimentos, lugares estranhos e enigmas históricos. Construa suspense e apresente as principais teorias sem afirmar o que não é comprovado."
+    visual_style: "dark, fog, night, abandoned, mysterious"
+    default_tone: misterioso
+    ideas:
+      - "O navio que foi encontrado à deriva sem nenhum tripulante"
+      - "O sinal de rádio que ninguém conseguiu explicar"
+      - "A cidade que desapareceu do mapa da noite para o dia"
+  terror:
+    label: "Relatos de terror"
+    guidance: "Histórias de terror e relatos sobrenaturais narrados em primeira ou terceira pessoa. Deixe claro que é um relato/lenda, não um fato comprovado."
+    visual_style: "horror, dark corridor, candle, shadows, night forest"
+    default_tone: assustador
+    ideas:
+      - "O vigia noturno que ouvia passos no andar vazio"
+      - "A casa onde os relógios paravam às 3 da manhã"
+      - "A estrada onde motoristas veem a mesma mulher pedindo carona"
+  true_crime:
+    label: "Crimes reais"
+    guidance: "Casos criminais reais e documentados. Seja respeitoso com as vítimas, fiel aos fatos públicos, sem sensacionalismo gráfico."
+    visual_style: "police lights, crime scene tape, interrogation room, city night, newspaper"
+    default_tone: documental
+    ideas:
+      - "O maior roubo a banco da história do Brasil"
+      - "O golpista que enganou o mundo fingindo ser piloto e médico"
+      - "O caso que foi resolvido 30 anos depois por DNA"
+  curiosidades:
+    label: "Curiosidades chocantes"
+    guidance: "Fatos surpreendentes e pouco conhecidos, verificáveis. Ritmo rápido, cada fato com um gancho."
+    visual_style: "cinematic, dramatic, close-up, macro, aerial"
+    default_tone: épico
+    ideas:
+      - "Coisas que acontecem com seu corpo enquanto você dorme"
+      - "Os lugares mais proibidos do planeta"
+      - "Invenções que surgiram por acidente"
+  tecnologia_dark:
+    label: "Tecnologia sombria"
+    guidance: "O lado obscuro da tecnologia: vigilância, IA, hackers, dark web, distopias reais. Tom investigativo, baseado em fatos."
+    visual_style: "hacker, code screen, server room, neon city, surveillance camera"
+    default_tone: misterioso
+    ideas:
+      - "O que a inteligência artificial já faz e ninguém te contou"
+      - "Os hackers que derrubaram empresas gigantes"
+      - "Como seu celular sabe tudo sobre você"
+  espaco:
+    label: "Espaço e universo"
+    guidance: "Fenômenos cósmicos, descobertas científicas e perguntas sem resposta sobre o universo. Ciência precisa com tom de admiração e mistério."
+    visual_style: "space, galaxy, stars, planet, nebula, telescope"
+    default_tone: épico
+    ideas:
+      - "O que existe dentro de um buraco negro"
+      - "O planeta onde chove vidro"
+      - "O silêncio de Fermi: onde estão todos?"
+  historia:
+    label: "História sombria"
+    guidance: "Episódios obscuros e pouco contados da história. Fiel às fontes históricas."
+    visual_style: "ancient ruins, old documents, candlelight, castle, war, black and white"
+    default_tone: documental
+    ideas:
+      - "A praga que dançava: a epidemia de dança de 1518"
+      - "A biblioteca perdida que guardava todo o conhecimento antigo"
+      - "O império que desapareceu sem deixar explicação"
+  lendas:
+    label: "Lendas urbanas"
+    guidance: "Lendas urbanas e folclore. Conte como lenda, explore a origem e o que há de real por trás."
+    visual_style: "folklore, dark village, forest at night, old photo, moon"
+    default_tone: misterioso
+    ideas:
+      - "A origem real da lenda do Corpo Seco"
+      - "A loira do banheiro: de onde veio essa história?"
+      - "Lendas urbanas que acabaram sendo verdade"
+  biblico:
+    label: "Histórias bíblicas"
+    guidance: "Narrativas bíblicas contadas de forma cinematográfica, respeitosa e fiel ao texto, com contexto histórico."
+    visual_style: "ancient desert, biblical, old scroll, temple, dramatic sky, candle"
+    default_tone: épico
+    ideas:
+      - "Davi e Golias: o que a Bíblia realmente diz"
+      - "As sete pragas do Egito explicadas"
+      - "A queda de Jericó"
+  estoicismo:
+    label: "Estoicismo e mentalidade"
+    guidance: "Lições de filosofia estoica e disciplina aplicadas à vida moderna. Tom grave, frases marcantes, sem promessas milagrosas."
+    visual_style: "lone man silhouette, statue, rain, mountain, dark gym, storm"
+    default_tone: épico
+    ideas:
+      - "O que Marco Aurélio faria no seu lugar"
+      - "A regra estoica para nunca mais ser controlado pela raiva"
+      - "Por que a disciplina vence a motivação"
+
+tones:
+  misterioso: "misterioso e intrigante, com pausas dramáticas e perguntas que prendem"
+  assustador: "assustador e tenso, construindo medo gradualmente"
+  documental: "documental e sério, como um narrador investigativo"
+  épico: "épico e grandioso, com intensidade crescente"
+  suspense: "suspense constante, revelando informações aos poucos"
+
+languages:
+  pt: "Português (Brasil)"
+  es: "Español"
+  en: "English"
+
+voices:
+  edge:
+    pt:
+      - { id: "pt-BR-AntonioNeural", label: "Antonio (grave, masculina)" }
+      - { id: "pt-BR-FranciscaNeural", label: "Francisca (feminina)" }
+      - { id: "pt-BR-ThalitaMultilingualNeural", label: "Thalita (feminina, multilíngue)" }
+    es:
+      - { id: "es-MX-JorgeNeural", label: "Jorge (masculina, México)" }
+      - { id: "es-ES-AlvaroNeural", label: "Álvaro (masculina, Espanha)" }
+      - { id: "es-MX-DaliaNeural", label: "Dalia (feminina, México)" }
+    en:
+      - { id: "en-US-ChristopherNeural", label: "Christopher (deep, male)" }
+      - { id: "en-US-GuyNeural", label: "Guy (male)" }
+      - { id: "en-US-AriaNeural", label: "Aria (female)" }
+  elevenlabs:
+    pt:
+      - { id: "bIHbv24MWmeRgasZH58o", label: "Voz PT (padrão do projeto)" }
+    es:
+      - { id: "onwK4e9ZLuTAKqWW03F9", label: "Daniel" }
+    en:
+      - { id: "pNInz6obpgDQGcFmaJgB", label: "Adam" }

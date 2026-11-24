@@ -1,9 +1,6 @@
 # Credenciais e chaves
 .env
 credentials/
-*.json
-!templates/*.json
-!data/temas_tech.json
 
 # Ambiente local
 .venv/
@@ -13,22 +10,13 @@ node_modules/
 
 # Arquivos gerados
 output/
-*.png
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
+.pytest_cache/
 
-# Logs
-data/logs/*.log
-
-# IDE
+# IDE / sistema
 .vscode/
 .idea/
 *.swp
-*.swo
-
-# Sistema
 .DS_Store
 Thumbs.db
